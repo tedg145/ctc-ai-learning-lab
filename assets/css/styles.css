@@ -88,73 +88,115 @@ img{max-width:100%;display:block}
 }
 .intro-equation{
   position:absolute;
-  color:rgba(139,226,255,.55);
+  color:rgba(157,233,255,.82);
   font-family:"SFMono-Regular",Consolas,"Liberation Mono",monospace;
-  font-size:clamp(.72rem,1.15vw,1rem);
-  letter-spacing:.06em;
+  font-size:clamp(.82rem,1.25vw,1.12rem);
+  font-weight:650;
+  letter-spacing:.07em;
   white-space:nowrap;
-  text-shadow:0 0 18px rgba(39,215,255,.48);
+  text-shadow:0 0 16px rgba(39,215,255,.72),0 2px 10px rgba(0,0,0,.9);
   will-change:transform;
 }
-.equation-1{left:6%;top:18%;animation:equationFloatA 16s ease-in-out infinite alternate}
-.equation-2{right:8%;top:14%;animation:equationFloatB 21s ease-in-out -5s infinite alternate}
-.equation-3{left:13%;bottom:19%;color:rgba(255,178,90,.58);animation:equationFloatB 18s ease-in-out -9s infinite alternate}
+.equation-1{left:5%;top:28%;animation:equationFloatA 16s ease-in-out infinite alternate}
+.equation-2{right:6%;top:25%;animation:equationFloatB 21s ease-in-out -5s infinite alternate}
+.equation-3{left:10%;bottom:14%;color:rgba(255,189,105,.86);animation:equationFloatB 18s ease-in-out -9s infinite alternate}
 .equation-4{right:5%;bottom:22%;animation:equationFloatA 24s ease-in-out -3s infinite alternate}
-.equation-5{left:4%;top:48%;opacity:.6;filter:blur(.35px);animation:equationFloatB 20s ease-in-out -12s infinite alternate}
-.equation-6{right:14%;top:46%;color:rgba(205,164,255,.56);animation:equationFloatA 19s ease-in-out -7s infinite alternate}
+.equation-5{left:4%;top:54%;color:rgba(151,230,255,.76);animation:equationFloatB 20s ease-in-out -12s infinite alternate}
+.equation-6{right:12%;top:52%;color:rgba(214,179,255,.84);animation:equationFloatA 19s ease-in-out -7s infinite alternate}
 .lab-intro__content{
   position:relative;
   z-index:2;
   display:flex;
   flex-direction:column;
   align-items:center;
-  width:min(92vw,860px);
-  padding:28px 20px;
+  justify-content:space-between;
+  width:min(94vw,1180px);
+  min-height:100svh;
+  padding:clamp(24px,4.2vh,52px) 20px clamp(28px,5vh,58px);
   text-align:center;
   transition:transform .9s cubic-bezier(.2,.7,.2,1),opacity .65s ease;
 }
+.lab-intro__masthead{
+  position:relative;
+  display:grid;
+  grid-template-columns:1fr;
+  align-items:center;
+  justify-items:center;
+  gap:16px;
+  margin:0 auto;
+  padding:0 clamp(18px,3vw,38px) 18px;
+}
+.lab-intro__masthead::before{
+  content:"";
+  position:absolute;
+  inset:-18px -38px;
+  z-index:-1;
+  border-radius:40px;
+  background:radial-gradient(ellipse at center,rgba(2,8,19,.76),rgba(2,8,19,.4) 58%,transparent 78%);
+  filter:blur(4px);
+}
+.lab-intro__logo-frame{
+  display:grid;
+  place-items:center;
+  justify-self:center;
+  padding:14px 18px;
+  border:1px solid rgba(255,255,255,.62);
+  border-radius:24px;
+  background:rgba(249,251,254,.94);
+  box-shadow:0 18px 48px rgba(0,0,0,.5),0 0 42px rgba(39,215,255,.14);
+}
 .lab-intro__logo{
   width:auto;
-  height:clamp(112px,19vh,182px);
-  margin:0 auto 18px;
+  height:clamp(148px,22vh,220px);
+  margin:0;
   object-fit:contain;
-  filter:drop-shadow(0 18px 30px rgba(0,0,0,.5));
+  filter:drop-shadow(0 8px 14px rgba(0,0,0,.2));
 }
-.lab-intro__eyebrow{
-  margin:0 0 8px;
-  color:#9bdfff;
-  font-size:clamp(.65rem,1.3vw,.82rem);
-  font-weight:800;
-  letter-spacing:.28em;
-  text-transform:uppercase;
+.lab-intro__wordmark{
+  text-align:center;
+  font-variant-caps:small-caps;
+  text-shadow:0 10px 34px rgba(0,0,0,.9);
 }
 .lab-intro__title{
+  display:flex;
+  align-items:baseline;
+  justify-content:center;
+  gap:.2em;
   margin:0;
-  font-size:clamp(3rem,8vw,6.5rem);
+  font-size:clamp(3.35rem,7.2vw,6.4rem);
   font-weight:900;
-  letter-spacing:-.055em;
-  line-height:.84;
+  letter-spacing:-.025em;
+  line-height:.82;
   text-wrap:balance;
-  text-shadow:0 16px 60px rgba(0,0,0,.72);
+  text-shadow:0 12px 38px rgba(0,0,0,.94);
 }
-.lab-intro__title span,.lab-intro__title strong{display:block}
+.lab-intro__title span,.lab-intro__title strong{display:inline-block}
 .lab-intro__title span{
   color:#fff;
-  font-size:.68em;
-  letter-spacing:.05em;
+  font-size:.7em;
+  letter-spacing:.12em;
 }
 .lab-intro__title strong{
-  background:linear-gradient(90deg,#fff 5%,#75ddff 48%,#8faeff 92%);
+  font-variant-caps:small-caps;
+  letter-spacing:.035em;
+  background:linear-gradient(90deg,#fff 4%,#b9ecff 52%,#b9c6ff 96%);
   -webkit-background-clip:text;
   background-clip:text;
   color:transparent;
 }
 .lab-intro__tagline{
-  margin:22px 0 28px;
-  color:#c8ddf2;
-  font-size:clamp(.98rem,2vw,1.2rem);
-  font-weight:650;
-  letter-spacing:.1em;
+  margin:18px 0 0;
+  color:#d7e9fa;
+  font-size:clamp(.98rem,1.8vw,1.18rem);
+  font-weight:700;
+  letter-spacing:.12em;
+  font-variant-caps:small-caps;
+}
+.lab-intro__action{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  pointer-events:auto;
 }
 .lab-intro__enter{
   position:relative;
@@ -170,7 +212,8 @@ img{max-width:100%;display:block}
   background:linear-gradient(135deg,rgba(20,77,116,.68),rgba(14,43,83,.82));
   box-shadow:0 0 0 1px rgba(255,255,255,.05) inset,0 0 36px rgba(39,215,255,.22);
   font-weight:800;
-  letter-spacing:.04em;
+  font-variant-caps:small-caps;
+  letter-spacing:.09em;
   transition:transform .2s ease,border-color .2s ease,box-shadow .2s ease,background .2s ease;
 }
 .lab-intro__enter::before{
@@ -382,9 +425,14 @@ img{max-width:100%;display:block}
   .stats{grid-template-columns:1fr}
   .hero{padding-top:30px}
   .hero-copy h1{font-size:2.5rem}
-  .lab-intro__content{padding:20px 16px}
-  .lab-intro__logo{height:clamp(100px,17vh,145px);margin-bottom:14px}
-  .lab-intro__tagline{margin:17px 0 22px}
+  .lab-intro__content{padding:18px 14px 28px}
+  .lab-intro__masthead{grid-template-columns:1fr;gap:14px;padding:0 10px}
+  .lab-intro__masthead::before{inset:-10px -20px}
+  .lab-intro__logo-frame{padding:9px 12px;border-radius:18px}
+  .lab-intro__logo{height:clamp(112px,17vh,142px)}
+  .lab-intro__wordmark{text-align:center}
+  .lab-intro__title{font-size:clamp(2.75rem,13vw,4rem)}
+  .lab-intro__tagline{margin-top:13px}
   .lab-intro__hint{display:none}
   .equation-2,.equation-4,.equation-5{display:none}
   .equation-1{left:-9%;top:13%}
