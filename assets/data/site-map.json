@@ -1,0 +1,18 @@
+{
+  "site": "CTC AI Learning Lab",
+  "version": "v1 starter",
+  "sections": [
+    {"title":"Home","path":"index.html"},
+    {"title":"Start Here","path":"start-here/index.html"},
+    {"title":"Foundations","path":"foundations/index.html"},
+    {"title":"AI Decision Lab","path":"labs/decision-lab/index.html"},
+    {"title":"Prompt Gym","path":"labs/prompt-gym/index.html"},
+    {"title":"Faculty Pathway","path":"pathways/faculty/index.html"},
+    {"title":"Staff Pathway","path":"pathways/staff/index.html"},
+    {"title":"Student Pathway","path":"pathways/students/index.html"},
+    {"title":"Builder Pathway","path":"pathways/builders/index.html"},
+    {"title":"Resources","path":"resources/index.html"},
+    {"title":"Facilitator Tools","path":"facilitator/index.html"},
+    {"title":"Learning Passport","path":"passport/index.html"}
+  ]
+}
