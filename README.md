@@ -4,7 +4,7 @@ A separate starter project for Central Texas College built as a static site prot
 
 ## What is included
 
-- A branded homepage focused on a guided learning journey
+- A cinematic, continuously animated entrance leading into the guided learning journey
 - A primary EX-MULTIS integration CTA
 - Role-based pathways for faculty, staff, students, and builders
 - A Start Here pathway and a Foundations page
@@ -13,7 +13,7 @@ A separate starter project for Central Texas College built as a static site prot
   - Prompt Gym
 - A browser-local Learning Passport using localStorage
 - Resource and Facilitator starter pages
-- A hero rendering image for the landing page
+- The official supplied CTC logo used consistently across the site
 
 ## Project goals for this version
 
@@ -68,6 +68,7 @@ Then visit:
 ## Key implementation notes
 
 - `assets/js/app.js` handles local progress tracking and common behaviors.
+- `assets/js/intro.js` powers the animated entrance and its reduced-motion fallback.
 - `assets/js/decision-lab.js` powers the AI Decision Lab.
 - `assets/js/prompt-gym.js` powers the Prompt Gym.
 - Progress is stored in `localStorage` only.

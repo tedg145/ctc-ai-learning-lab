@@ -5,13 +5,40 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>CTC AI Learning Lab</title>
   <meta name="description" content="Central Texas College AI Learning Lab - a guided environment for faculty, staff, students, and builders.">
+  <link rel="preload" href="assets/img/ctc-official-logo.png" as="image">
   <link rel="stylesheet" href="assets/css/styles.css">
+  <noscript><style>.lab-intro{display:none!important}body{overflow:auto!important}</style></noscript>
 </head>
-<body>
+<body class="home-page intro-active">
+  <section class="lab-intro" data-lab-intro aria-label="Enter the CTC AI Learning Lab">
+    <canvas class="lab-intro__canvas" data-intro-canvas aria-hidden="true"></canvas>
+    <div class="lab-intro__grid" aria-hidden="true"></div>
+    <div class="lab-intro__vignette" aria-hidden="true"></div>
+    <div class="intro-equations" aria-hidden="true">
+      <span class="intro-equation equation-1">P(next token | context)</span>
+      <span class="intro-equation equation-2">Attention(Q,K,V)</span>
+      <span class="intro-equation equation-3">E(t) = x<sub>t</sub></span>
+      <span class="intro-equation equation-4">θ<sub>new</sub> = θ<sub>old</sub> − η∇L</span>
+      <span class="intro-equation equation-5">v⃗ = [0.12, −0.37, 0.84]</span>
+      <span class="intro-equation equation-6">softmax(z<sub>i</sub>)</span>
+    </div>
+    <div class="lab-intro__content">
+      <img class="lab-intro__logo" src="assets/img/ctc-official-logo.png" alt="Central Texas College">
+      <p class="lab-intro__eyebrow">Central Texas College</p>
+      <h1 class="lab-intro__title"><span>CTC AI</span><strong>Learning Lab</strong></h1>
+      <p class="lab-intro__tagline">Learn. Test. Apply. AI—Safely.</p>
+      <a class="lab-intro__enter" href="#lab-menu" data-enter-lab>
+        <span>Enter the Lab</span>
+        <span aria-hidden="true">→</span>
+      </a>
+      <p class="lab-intro__hint">Continuous learning begins here</p>
+    </div>
+  </section>
+
   <header class="topbar">
     <div class="container nav">
       <a class="brand" href="index.html">
-        <div class="brand-mark">CTC</div>
+        <img class="brand-logo" src="assets/img/ctc-official-logo.png" alt="Central Texas College">
         <div>CTC AI Learning Lab<small>Learn it. Try it. Apply it.</small></div>
       </a>
       <nav class="nav-links">
@@ -24,6 +51,7 @@
         <a href="facilitator/index.html">Facilitator</a>
       </nav>
       <div class="actions">
+        <button class="btn ghost intro-replay" type="button" data-replay-intro>Replay Intro</button>
         <a class="btn ghost" href="https://exmultis.com/" target="_blank" rel="noopener">Open EX-MULTIS ↗</a>
       </div>
     </div>
@@ -42,13 +70,17 @@
             <a class="btn signal" href="https://exmultis.com/" target="_blank" rel="noopener">Launch EX-MULTIS</a>
           </div>
         </div>
-        <div class="render-card">
-          <img src="assets/img/hero-rendering.png" alt="Rendering of the CTC AI Learning Lab homepage with large LLM equations, vector embeddings, and an EX-MULTIS callout.">
+        <div class="render-card lab-portal-card">
+          <div>
+            <img class="lab-portal-card__logo" src="assets/img/ctc-official-logo.png" alt="Central Texas College">
+            <span class="lab-portal-card__label">Interactive learning environment</span>
+            <strong>A living gateway into practical, responsible AI learning.</strong>
+          </div>
         </div>
       </div>
     </section>
 
-    <section class="section">
+    <section class="section" id="lab-menu" tabindex="-1">
       <div class="container">
         <div class="exmultis panel">
           <div class="ex-logo">⬢</div>
@@ -177,6 +209,7 @@
     </div>
   </footer>
 
+  <script src="assets/js/intro.js"></script>
   <script src="assets/js/app.js"></script>
 </body>
 </html>
