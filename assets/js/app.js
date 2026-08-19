@@ -112,6 +112,12 @@ const CTC = (() => {
     if(document.querySelector('[data-scout-guide]')) return;
     const appScript = [...document.scripts].find(script=>/\/assets\/js\/app\.js(?:\?|$)/.test(script.src));
     const siteRoot = appScript ? new URL('../../',appScript.src) : new URL('./',location.href);
+    let playEquationIntro = false;
+    try{
+      const forceIntro = new URLSearchParams(location.search).has('scout-intro');
+      playEquationIntro = forceIntro || sessionStorage.getItem('ctc-scout-equation-intro-v1') !== 'seen';
+      if(playEquationIntro) sessionStorage.setItem('ctc-scout-equation-intro-v1','seen');
+    }catch(error){ playEquationIntro = true; }
     const routeUrl = path=>new URL(path,siteRoot).href;
     const routes = [
       {words:['teach','faculty','class','assignment','lesson','feedback'],title:'Faculty Pathway',detail:'Explore teaching, feedback, and classroom-ready uses.',path:'pathways/faculty/index.html'},
@@ -125,14 +131,14 @@ const CTC = (() => {
     ];
     const fallback = {title:'Start Here',detail:'Begin with the essentials, then choose the path that matches your goal.',path:'start-here/index.html'};
     const guide = document.createElement('div');
-    guide.className = 'scout-guide';
+    guide.className = `scout-guide scout-guide--equation${playEquationIntro ? ' is-birthing' : ''}`;
     guide.dataset.scoutGuide = '';
     guide.innerHTML = `
       <span class="scout-sr-only" id="scout-move-instructions">Drag Scout anywhere on the screen, or focus Scout and use the arrow keys to move him.</span>
       <section class="scout-panel" aria-label="Scout learning guide" aria-hidden="true" aria-live="polite">
         <div class="scout-panel__header">
           <div class="scout-panel__face" data-scout-mini-face>^‿^</div>
-          <div class="scout-panel__title">Scout · Learning guide<small><span class="scout-panel__dot"></span>Ready to help</small></div>
+          <div class="scout-panel__title">Scout · AI helper<small><span class="scout-panel__dot"></span>Ready to help</small></div>
           <button class="scout-panel__reset" type="button" aria-label="Reset Scout position" title="Return Scout to the corner">↺</button>
           <button class="scout-panel__close" type="button" aria-label="Close Scout">×</button>
         </div>
@@ -159,14 +165,20 @@ const CTC = (() => {
       </section>
       <button class="scout-launcher" type="button" aria-label="Open Scout learning guide" aria-describedby="scout-move-instructions" aria-expanded="false" title="Drag Scout to move him · click to ask for help">
         <span class="scout-launcher__label">Ask Scout <small>drag me</small></span>
-        <span class="scout-bot is-happy" aria-hidden="true">
+        <span class="scout-birth" aria-hidden="true"><i>H(X) = −</i><i>Σ</i><i>p(x)</i><i>log₂</i><i>p(x)</i></span>
+        <span class="scout-bot scout-bot--equation is-happy" aria-hidden="true">
           <span class="scout-bot__shadow"></span>
           <span class="scout-bot__ear scout-bot__ear--left"></span><span class="scout-bot__ear scout-bot__ear--right"></span>
           <span class="scout-bot__head"><span class="scout-bot__face"><i class="scout-bot__eye"></i><i class="scout-bot__eye"></i><i class="scout-bot__mouth"></i></span></span>
-          <span class="scout-bot__body"></span><span class="scout-bot__arm scout-bot__arm--left"></span><span class="scout-bot__arm scout-bot__arm--right"></span>
+          <span class="scout-bot__body"><i class="scout-equation__core"></i></span><span class="scout-bot__arm scout-bot__arm--left"></span><span class="scout-bot__arm scout-bot__arm--right"></span>
+          <span class="scout-equation__leg scout-equation__leg--left"></span><span class="scout-equation__leg scout-equation__leg--right"></span>
+          <span class="scout-equation__nav scout-equation__nav--learn">›</span><span class="scout-equation__nav scout-equation__nav--multis">◆</span>
+          <span class="scout-equation__laptop"><i class="scout-equation__screen"></i><i class="scout-equation__keys"></i></span>
         </span>
       </button>`;
     document.body.appendChild(guide);
+
+    if(playEquationIntro) window.setTimeout(()=>guide.classList.remove('is-birthing'),3900);
 
     const panel = guide.querySelector('.scout-panel');
     const launcher = guide.querySelector('.scout-launcher');
@@ -365,7 +377,16 @@ const CTC = (() => {
         event.preventDefault();
         return;
       }
-      setOpen(!guide.classList.contains('is-open'));
+      const open = !guide.classList.contains('is-open');
+      if(open){
+        guide.classList.remove('is-birthing');
+        guide.classList.add('is-working');
+        setMood('is-curious');
+        window.setTimeout(()=>setOpen(true),420);
+      }else{
+        setOpen(false);
+        window.setTimeout(()=>guide.classList.remove('is-working'),240);
+      }
     });
     launcher.addEventListener('keydown',event=>{
       const directions = {
@@ -383,7 +404,10 @@ const CTC = (() => {
       saveLauncherPosition();
       guide.classList.remove('is-noticing');
     });
-    closeButton.addEventListener('click',()=>setOpen(false));
+    closeButton.addEventListener('click',()=>{
+      setOpen(false);
+      window.setTimeout(()=>guide.classList.remove('is-working'),240);
+    });
     resetButton.addEventListener('click',()=>{
       try{ localStorage.removeItem(positionKey); }catch(error){}
       launcher.removeAttribute('style');
