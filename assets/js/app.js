@@ -108,6 +108,141 @@ const CTC = (() => {
       });
     });
   }
+  function initScout(){
+    if(document.querySelector('[data-scout-guide]')) return;
+    const appScript = [...document.scripts].find(script=>/\/assets\/js\/app\.js(?:\?|$)/.test(script.src));
+    const siteRoot = appScript ? new URL('../../',appScript.src) : new URL('./',location.href);
+    const routeUrl = path=>new URL(path,siteRoot).href;
+    const routes = [
+      {words:['teach','faculty','class','assignment','lesson','feedback'],title:'Faculty Pathway',detail:'Explore teaching, feedback, and classroom-ready uses.',path:'pathways/faculty/index.html'},
+      {words:['student','study','homework','career','learn'],title:'Student Pathway',detail:'Use AI for studying, reflection, and career preparation.',path:'pathways/students/index.html'},
+      {words:['staff','workflow','office','process','document'],title:'Staff Pathway',detail:'Find practical support for communication and everyday workflows.',path:'pathways/staff/index.html'},
+      {words:['build','code','prototype','automation','developer'],title:'Builder Pathway',detail:'Explore structured prompting, prototypes, and workflow design.',path:'pathways/builders/index.html'},
+      {words:['safe','risk','data','decision','private','sensitive'],title:'AI Decision Lab',detail:'Check whether AI fits the task and what a person must verify.',path:'labs/decision-lab/index.html'},
+      {words:['prompt','write','email','draft','message'],title:'Prompt Gym',detail:'Build a stronger prompt with context, audience, constraints, and verification.',path:'labs/prompt-gym/index.html'},
+      {words:['resource','guide','find','library'],title:'Resources',detail:'Browse practical guides, pathways, and learning tools.',path:'resources/index.html'},
+      {words:['role','path','choose'],title:'Choose Your Path',detail:'Compare the Faculty, Staff, Student, and Builder pathways.',path:'index.html#pathways'}
+    ];
+    const fallback = {title:'Start Here',detail:'Begin with the essentials, then choose the path that matches your goal.',path:'start-here/index.html'};
+    const guide = document.createElement('div');
+    guide.className = 'scout-guide';
+    guide.dataset.scoutGuide = '';
+    guide.innerHTML = `
+      <section class="scout-panel" aria-label="Scout learning guide" aria-hidden="true" aria-live="polite">
+        <div class="scout-panel__header">
+          <div class="scout-panel__face" data-scout-mini-face>^‿^</div>
+          <div class="scout-panel__title">Scout · Learning guide<small><span class="scout-panel__dot"></span>Ready to help</small></div>
+          <button class="scout-panel__close" type="button" aria-label="Close Scout">×</button>
+        </div>
+        <div class="scout-messages" data-scout-messages>
+          <div class="scout-message">Hi, I’m Scout! Tell me what you want to accomplish, and I’ll point you to the best place to begin.</div>
+          <div class="scout-recommendation">
+            <small>Suggested starting point</small>
+            <strong>Start Here</strong>
+            <p>A five-step introduction to AI, safe habits, and the learning tools.</p>
+            <a href="${routeUrl(fallback.path)}">Open Start Here →</a>
+          </div>
+        </div>
+        <div class="scout-choices" aria-label="Quick questions">
+          <button class="scout-choice" type="button" data-scout-query="I want to write a better prompt">Write a prompt</button>
+          <button class="scout-choice" type="button" data-scout-query="I need to use AI safely">Use AI safely</button>
+          <button class="scout-choice" type="button" data-scout-query="Help me choose my role pathway">Choose my path</button>
+          <button class="scout-choice" type="button" data-scout-query="I need a teaching resource">Find a resource</button>
+        </div>
+        <div class="scout-compose">
+          <input type="text" aria-label="Message Scout" placeholder="What would you like to work on?">
+          <button type="button" data-scout-send>Send</button>
+          <p class="scout-privacy">Guided recommendations stay in this browser. Scout does not send your message to an outside service.</p>
+        </div>
+      </section>
+      <button class="scout-launcher" type="button" aria-label="Open Scout learning guide" aria-expanded="false">
+        <span class="scout-launcher__label">Ask Scout</span>
+        <span class="scout-bot is-happy" aria-hidden="true">
+          <span class="scout-bot__shadow"></span>
+          <span class="scout-bot__ear scout-bot__ear--left"></span><span class="scout-bot__ear scout-bot__ear--right"></span>
+          <span class="scout-bot__head"><span class="scout-bot__face"><i class="scout-bot__eye"></i><i class="scout-bot__eye"></i><i class="scout-bot__mouth"></i></span></span>
+          <span class="scout-bot__body"></span><span class="scout-bot__arm scout-bot__arm--left"></span><span class="scout-bot__arm scout-bot__arm--right"></span>
+        </span>
+      </button>`;
+    document.body.appendChild(guide);
+
+    const panel = guide.querySelector('.scout-panel');
+    const launcher = guide.querySelector('.scout-launcher');
+    const closeButton = guide.querySelector('.scout-panel__close');
+    const input = guide.querySelector('.scout-compose input');
+    const sendButton = guide.querySelector('[data-scout-send]');
+    const messages = guide.querySelector('[data-scout-messages]');
+    const bot = guide.querySelector('.scout-bot');
+    const miniFace = guide.querySelector('[data-scout-mini-face]');
+
+    function setOpen(open){
+      guide.classList.toggle('is-open',open);
+      panel.setAttribute('aria-hidden',String(!open));
+      launcher.setAttribute('aria-expanded',String(open));
+      launcher.setAttribute('aria-label',open ? 'Close Scout learning guide' : 'Open Scout learning guide');
+      if(open) window.setTimeout(()=>input.focus(),180);
+    }
+    function setMood(mood){
+      bot.classList.remove('is-happy','is-thinking','is-curious');
+      bot.classList.add(mood);
+      miniFace.textContent = mood === 'is-thinking' ? '•_•' : mood === 'is-curious' ? '•o•' : '^‿^';
+    }
+    function getRecommendation(query){
+      const lower = query.toLowerCase();
+      return routes.find(route=>route.words.some(word=>lower.includes(word))) || fallback;
+    }
+    function addRecommendation(query){
+      const userMessage = document.createElement('div');
+      userMessage.className = 'scout-message scout-message--user';
+      userMessage.textContent = query;
+      messages.appendChild(userMessage);
+      messages.scrollTop = messages.scrollHeight;
+      setMood('is-thinking');
+      window.setTimeout(()=>{
+        const match = getRecommendation(query);
+        const card = document.createElement('div');
+        card.className = 'scout-recommendation';
+        const label = document.createElement('small');
+        label.textContent = 'My recommendation';
+        const title = document.createElement('strong');
+        title.textContent = match.title;
+        const detail = document.createElement('p');
+        detail.textContent = match.detail;
+        const link = document.createElement('a');
+        link.href = routeUrl(match.path);
+        link.textContent = `Open ${match.title} →`;
+        card.append(label,title,detail,link);
+        messages.appendChild(card);
+        messages.scrollTop = messages.scrollHeight;
+        setMood('is-happy');
+      },520);
+    }
+    function sendTypedQuestion(){
+      const query = input.value.trim();
+      if(!query) return;
+      addRecommendation(query);
+      input.value = '';
+    }
+
+    launcher.addEventListener('click',()=>setOpen(!guide.classList.contains('is-open')));
+    closeButton.addEventListener('click',()=>setOpen(false));
+    guide.querySelectorAll('[data-scout-query]').forEach(button=>button.addEventListener('click',()=>addRecommendation(button.dataset.scoutQuery)));
+    sendButton.addEventListener('click',sendTypedQuestion);
+    input.addEventListener('keydown',event=>{
+      if(event.key !== 'Enter') return;
+      event.preventDefault();
+      sendTypedQuestion();
+    });
+    document.addEventListener('keydown',event=>{
+      if(event.key === 'Escape' && guide.classList.contains('is-open')) setOpen(false);
+    });
+    window.setTimeout(()=>guide.classList.add('is-noticing'),2200);
+    window.setInterval(()=>{
+      if(bot.classList.contains('is-thinking')) return;
+      const nextMood = bot.classList.contains('is-happy') ? 'is-curious' : 'is-happy';
+      setMood(nextMood);
+    },6200);
+  }
   function init(){
     renderContinue();
     setLastPage(location.pathname.replace('/mnt/data/ctc-ai-learning-lab',''));
@@ -115,6 +250,7 @@ const CTC = (() => {
     bindRoleButtons();
     bindSearch();
     highlightNav();
+    initScout();
   }
   return {init, load, save, complete, setRole, increment, renderPassport};
 })();
