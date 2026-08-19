@@ -128,10 +128,12 @@ const CTC = (() => {
     guide.className = 'scout-guide';
     guide.dataset.scoutGuide = '';
     guide.innerHTML = `
+      <span class="scout-sr-only" id="scout-move-instructions">Drag Scout anywhere on the screen, or focus Scout and use the arrow keys to move him.</span>
       <section class="scout-panel" aria-label="Scout learning guide" aria-hidden="true" aria-live="polite">
         <div class="scout-panel__header">
           <div class="scout-panel__face" data-scout-mini-face>^‿^</div>
           <div class="scout-panel__title">Scout · Learning guide<small><span class="scout-panel__dot"></span>Ready to help</small></div>
+          <button class="scout-panel__reset" type="button" aria-label="Reset Scout position" title="Return Scout to the corner">↺</button>
           <button class="scout-panel__close" type="button" aria-label="Close Scout">×</button>
         </div>
         <div class="scout-messages" data-scout-messages>
@@ -155,8 +157,8 @@ const CTC = (() => {
           <p class="scout-privacy">Guided recommendations stay in this browser. Scout does not send your message to an outside service.</p>
         </div>
       </section>
-      <button class="scout-launcher" type="button" aria-label="Open Scout learning guide" aria-expanded="false">
-        <span class="scout-launcher__label">Ask Scout</span>
+      <button class="scout-launcher" type="button" aria-label="Open Scout learning guide" aria-describedby="scout-move-instructions" aria-expanded="false" title="Drag Scout to move him · click to ask for help">
+        <span class="scout-launcher__label">Ask Scout <small>drag me</small></span>
         <span class="scout-bot is-happy" aria-hidden="true">
           <span class="scout-bot__shadow"></span>
           <span class="scout-bot__ear scout-bot__ear--left"></span><span class="scout-bot__ear scout-bot__ear--right"></span>
@@ -169,18 +171,114 @@ const CTC = (() => {
     const panel = guide.querySelector('.scout-panel');
     const launcher = guide.querySelector('.scout-launcher');
     const closeButton = guide.querySelector('.scout-panel__close');
+    const resetButton = guide.querySelector('.scout-panel__reset');
     const input = guide.querySelector('.scout-compose input');
     const sendButton = guide.querySelector('[data-scout-send]');
     const messages = guide.querySelector('[data-scout-messages]');
     const bot = guide.querySelector('.scout-bot');
     const miniFace = guide.querySelector('[data-scout-mini-face]');
+    const positionKey = 'ctc-scout-position-v1';
+    let dragState = null;
+    let suppressLauncherClick = false;
+
+    function clamp(value,min,max){
+      return Math.min(Math.max(value,min),max);
+    }
+    function positionPanel(){
+      const edge = 12;
+      const gap = 12;
+      const launcherRect = launcher.getBoundingClientRect();
+      const panelWidth = panel.offsetWidth;
+      const panelHeight = panel.offsetHeight;
+      const preferredLeft = launcherRect.left + launcherRect.width / 2 > window.innerWidth / 2
+        ? launcherRect.right - panelWidth
+        : launcherRect.left;
+      const left = clamp(preferredLeft,edge,Math.max(edge,window.innerWidth - panelWidth - edge));
+      let top;
+      if(launcherRect.top >= panelHeight + gap + edge){
+        top = launcherRect.top - panelHeight - gap;
+      }else if(window.innerHeight - launcherRect.bottom >= panelHeight + gap + edge){
+        top = launcherRect.bottom + gap;
+      }else{
+        top = clamp(
+          launcherRect.top + launcherRect.height / 2 - panelHeight / 2,
+          edge,
+          Math.max(edge,window.innerHeight - panelHeight - edge)
+        );
+      }
+      panel.style.left = `${Math.round(left)}px`;
+      panel.style.top = `${Math.round(top)}px`;
+      panel.style.right = 'auto';
+      panel.style.bottom = 'auto';
+    }
+    function setLauncherPosition(left,top){
+      const edge = 8;
+      const maxLeft = Math.max(edge,window.innerWidth - launcher.offsetWidth - edge);
+      const maxTop = Math.max(edge,window.innerHeight - launcher.offsetHeight - edge);
+      launcher.style.left = `${Math.round(clamp(left,edge,maxLeft))}px`;
+      launcher.style.top = `${Math.round(clamp(top,edge,maxTop))}px`;
+      launcher.style.right = 'auto';
+      launcher.style.bottom = 'auto';
+      positionPanel();
+    }
+    function saveLauncherPosition(){
+      const edge = 8;
+      const rect = launcher.getBoundingClientRect();
+      const availableWidth = Math.max(1,window.innerWidth - launcher.offsetWidth - edge * 2);
+      const availableHeight = Math.max(1,window.innerHeight - launcher.offsetHeight - edge * 2);
+      const position = {
+        x: clamp((rect.left - edge) / availableWidth,0,1),
+        y: clamp((rect.top - edge) / availableHeight,0,1)
+      };
+      try{ localStorage.setItem(positionKey,JSON.stringify(position)); }catch(error){}
+    }
+    function restoreLauncherPosition(){
+      let position = null;
+      try{ position = JSON.parse(localStorage.getItem(positionKey)); }catch(error){}
+      if(position && Number.isFinite(position.x) && Number.isFinite(position.y)){
+        const edge = 8;
+        const availableWidth = Math.max(1,window.innerWidth - launcher.offsetWidth - edge * 2);
+        const availableHeight = Math.max(1,window.innerHeight - launcher.offsetHeight - edge * 2);
+        setLauncherPosition(edge + clamp(position.x,0,1) * availableWidth,edge + clamp(position.y,0,1) * availableHeight);
+      }else{
+        positionPanel();
+      }
+    }
+    function moveActiveDrag(clientX,clientY){
+      if(!dragState) return;
+      const deltaX = clientX - dragState.startX;
+      const deltaY = clientY - dragState.startY;
+      if(!dragState.moved && Math.hypot(deltaX,deltaY) < 6) return;
+      dragState.moved = true;
+      guide.classList.remove('is-noticing');
+      setLauncherPosition(dragState.startLeft + deltaX,dragState.startTop + deltaY);
+    }
+    function completeDrag(){
+      if(!dragState) return;
+      const pointerId = dragState.pointerId;
+      if(dragState.moved){
+        saveLauncherPosition();
+        suppressLauncherClick = true;
+        window.setTimeout(()=>{ suppressLauncherClick = false; },0);
+      }
+      launcher.classList.remove('is-dragging');
+      if(Number.isInteger(pointerId) && launcher.hasPointerCapture(pointerId)) launcher.releasePointerCapture(pointerId);
+      dragState = null;
+    }
+    function finishDrag(event){
+      if(!dragState || event.pointerId !== dragState.pointerId) return;
+      completeDrag();
+    }
 
     function setOpen(open){
       guide.classList.toggle('is-open',open);
       panel.setAttribute('aria-hidden',String(!open));
       launcher.setAttribute('aria-expanded',String(open));
       launcher.setAttribute('aria-label',open ? 'Close Scout learning guide' : 'Open Scout learning guide');
-      if(open) window.setTimeout(()=>input.focus(),180);
+      if(open){
+        window.requestAnimationFrame(positionPanel);
+        window.setTimeout(()=>input.focus(),180);
+      }
     }
     function setMood(mood){
       bot.classList.remove('is-happy','is-thinking','is-curious');
@@ -224,8 +322,73 @@ const CTC = (() => {
       input.value = '';
     }
 
-    launcher.addEventListener('click',()=>setOpen(!guide.classList.contains('is-open')));
+    launcher.addEventListener('pointerdown',event=>{
+      if(dragState || (event.pointerType === 'mouse' && event.button !== 0)) return;
+      const rect = launcher.getBoundingClientRect();
+      dragState = {
+        pointerId:event.pointerId,
+        startX:event.clientX,
+        startY:event.clientY,
+        startLeft:rect.left,
+        startTop:rect.top,
+        moved:false
+      };
+      launcher.setPointerCapture(event.pointerId);
+      launcher.classList.add('is-dragging');
+    });
+    launcher.addEventListener('pointermove',event=>{
+      if(!dragState || event.pointerId !== dragState.pointerId) return;
+      moveActiveDrag(event.clientX,event.clientY);
+    });
+    launcher.addEventListener('pointerup',finishDrag);
+    launcher.addEventListener('pointercancel',finishDrag);
+    launcher.addEventListener('mousedown',event=>{
+      if(event.button !== 0 || dragState) return;
+      const rect = launcher.getBoundingClientRect();
+      dragState = {
+        pointerId:'mouse',
+        startX:event.clientX,
+        startY:event.clientY,
+        startLeft:rect.left,
+        startTop:rect.top,
+        moved:false
+      };
+      launcher.classList.add('is-dragging');
+    });
+    document.addEventListener('mousemove',event=>{
+      if(!dragState) return;
+      moveActiveDrag(event.clientX,event.clientY);
+    });
+    document.addEventListener('mouseup',()=>completeDrag());
+    launcher.addEventListener('click',event=>{
+      if(suppressLauncherClick){
+        event.preventDefault();
+        return;
+      }
+      setOpen(!guide.classList.contains('is-open'));
+    });
+    launcher.addEventListener('keydown',event=>{
+      const directions = {
+        ArrowLeft:[-1,0],
+        ArrowRight:[1,0],
+        ArrowUp:[0,-1],
+        ArrowDown:[0,1]
+      };
+      if(!directions[event.key]) return;
+      event.preventDefault();
+      const [horizontal,vertical] = directions[event.key];
+      const step = event.shiftKey ? 40 : 12;
+      const rect = launcher.getBoundingClientRect();
+      setLauncherPosition(rect.left + horizontal * step,rect.top + vertical * step);
+      saveLauncherPosition();
+      guide.classList.remove('is-noticing');
+    });
     closeButton.addEventListener('click',()=>setOpen(false));
+    resetButton.addEventListener('click',()=>{
+      try{ localStorage.removeItem(positionKey); }catch(error){}
+      launcher.removeAttribute('style');
+      window.requestAnimationFrame(positionPanel);
+    });
     guide.querySelectorAll('[data-scout-query]').forEach(button=>button.addEventListener('click',()=>addRecommendation(button.dataset.scoutQuery)));
     sendButton.addEventListener('click',sendTypedQuestion);
     input.addEventListener('keydown',event=>{
@@ -236,6 +399,8 @@ const CTC = (() => {
     document.addEventListener('keydown',event=>{
       if(event.key === 'Escape' && guide.classList.contains('is-open')) setOpen(false);
     });
+    window.addEventListener('resize',()=>window.requestAnimationFrame(restoreLauncherPosition));
+    window.requestAnimationFrame(restoreLauncherPosition);
     window.setTimeout(()=>guide.classList.add('is-noticing'),2200);
     window.setInterval(()=>{
       if(bot.classList.contains('is-thinking')) return;
