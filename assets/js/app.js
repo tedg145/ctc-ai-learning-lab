@@ -33,13 +33,23 @@ const CTC = (() => {
     const el = document.querySelector('[data-continue-card]');
     if(!el) return;
     const s=load();
-    const labels = {'/':'Home','/index.html':'Home'};
+    const labels = {
+      '/':'Home','/index.html':'Home',
+      '/start-here/':'Start Here','/start-here/index.html':'Start Here',
+      '/foundations/':'Foundations','/foundations/index.html':'Foundations',
+      '/labs/decision-lab/':'AI Decision Lab','/labs/decision-lab/index.html':'AI Decision Lab',
+      '/labs/prompt-gym/':'Prompt Gym','/labs/prompt-gym/index.html':'Prompt Gym'
+    };
     const last = s.lastPage || '/';
-    const pretty = labels[last] || last.replace(/index\.html$/,'').replace(/^\//,'').replace(/\//g,' › ') || 'Home';
-    el.innerHTML = `<div class="eyebrow">Welcome back</div>
-      <h3>Continue Learning</h3>
-      <p>You last visited <strong>${pretty}</strong>. Pick up where you left off or return to your recommended pathway.</p>
-      <div class="meta">Saved locally in this browser</div>`;
+    const localPath = last.replace(/^\/ctc-ai-learning-lab\/?/,'/');
+    const hasResumePage = !['/','/index.html'].includes(localPath);
+    const pretty = hasResumePage ? (labels[localPath] || localPath.replace(/index\.html$/,'').replace(/^\//,'').replace(/\/$/,'').replace(/\//g,' › ')) : 'Start Here';
+    const resumeHref = hasResumePage ? last : 'start-here/index.html';
+    el.innerHTML = `<span class="home-feature-card__icon" aria-hidden="true">↗</span>
+      <div><div class="home-kicker">Continue learning</div>
+      <h3>${pretty}</h3>
+      <p>${hasResumePage ? 'Pick up where you left off.' : 'Begin with a short introduction.'}</p>
+      <a class="home-card-link" href="${resumeHref}">${hasResumePage ? 'Resume' : 'Begin'} →</a></div>`;
   }
   function renderPassport(){
     const root = document.querySelector('[data-passport]');
@@ -48,6 +58,12 @@ const CTC = (() => {
     const items = [
       ['Foundations','foundations'],['Faculty','faculty'],['Staff','staff'],['Students','students'],['Builders','builders'],['Labs','labs']
     ];
+    const totals = Object.values(progress).reduce((a,b)=>({done:a.done+b.done,total:a.total+b.total}),{done:0,total:0});
+    if(root.hasAttribute('data-passport-compact')){
+      const pct = Math.round((totals.done / totals.total) * 100);
+      root.innerHTML = `<div class="home-passport-row"><strong>${pct}%</strong><span>${totals.done} of ${totals.total} complete</span></div>
+        <div class="progress-bar"><div class="progress-fill" style="width:${pct}%"></div></div>`;
+    } else {
     root.innerHTML = items.map(([label,key])=>{
       const pct = Math.round((progress[key].done / progress[key].total) * 100);
       return `<div class="progress-item">
@@ -55,10 +71,10 @@ const CTC = (() => {
         <div class="progress-bar"><div class="progress-fill" style="width:${pct}%"></div></div>
       </div>`;
     }).join('');
+    }
     const summary = document.querySelector('[data-passport-summary]');
     if(summary){
-      const totals = Object.values(progress).reduce((a,b)=>({done:a.done+b.done,total:a.total+b.total}),{done:0,total:0});
-      summary.textContent = `${totals.done} of ${totals.total} learning milestones completed in this browser.`;
+      summary.textContent = `${totals.done} of ${totals.total} milestones completed in this browser.`;
     }
   }
   function bindRoleButtons(){
@@ -93,8 +109,8 @@ const CTC = (() => {
     });
   }
   function init(){
-    setLastPage(location.pathname.replace('/mnt/data/ctc-ai-learning-lab',''));
     renderContinue();
+    setLastPage(location.pathname.replace('/mnt/data/ctc-ai-learning-lab',''));
     renderPassport();
     bindRoleButtons();
     bindSearch();

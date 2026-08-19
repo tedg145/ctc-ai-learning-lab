@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>CTC AI Learning Lab</title>
+  <title>AI Learning Lab</title>
   <meta name="description" content="Central Texas College AI Learning Lab - a guided environment for faculty, staff, students, and builders.">
   <link rel="preload" href="assets/img/ctc-official-logo.png" as="image">
   <link rel="stylesheet" href="assets/css/styles.css">
@@ -43,162 +43,155 @@
   </section>
 
   <header class="topbar">
-    <div class="container nav">
-      <a class="brand" href="index.html">
-        <img class="brand-logo" src="assets/img/ctc-official-logo.png" alt="Central Texas College">
-        <div>CTC AI Learning Lab<small>Learn it. Try it. Apply it.</small></div>
+    <div class="container nav home-nav">
+      <a class="brand home-brand" href="index.html">
+        <span class="home-brand__mark"><img class="brand-logo" src="assets/img/ctc-official-logo.png" alt="Central Texas College"></span>
+        <div>AI Learning Lab<small>Learn · Practice · Apply</small></div>
       </a>
       <nav class="nav-links">
-        <a class="active" href="index.html">Home</a>
         <a href="start-here/index.html">Start Here</a>
         <a href="foundations/index.html">Foundations</a>
-        <a href="labs/decision-lab/index.html">AI Decision Lab</a>
+        <a href="labs/decision-lab/index.html">Decision Lab</a>
         <a href="labs/prompt-gym/index.html">Prompt Gym</a>
         <a href="resources/index.html">Resources</a>
-        <a href="facilitator/index.html">Facilitator</a>
       </nav>
       <div class="actions">
-        <button class="btn ghost intro-replay" type="button" data-replay-intro>Replay Intro</button>
-        <a class="btn ghost" href="https://exmultis.com/" target="_blank" rel="noopener">Open EX-MULTIS ↗</a>
+        <button class="btn ghost intro-replay" type="button" data-replay-intro><span aria-hidden="true">↻</span> Replay</button>
+        <a class="btn primary home-tool-button" href="https://exmultis.com/" target="_blank" rel="noopener">EX-MULTIS ↗</a>
       </div>
     </div>
   </header>
 
   <main>
-    <section class="hero">
-      <div class="container hero-grid">
+    <section class="hero home-hero" id="lab-menu" tabindex="-1">
+      <div class="container home-hero-grid">
         <div class="hero-copy">
-          <div class="pill">New project · built separately from the MCC site</div>
-          <h1>CTC AI <span class="gradient">Learning Lab</span></h1>
-          <p class="lead">A guided AI learning environment for <strong>faculty, staff, students, and builders</strong> at Central Texas College.</p>
-          <p class="sub">This site treats AI as something you learn by using: understand the fundamentals, explore safe practice scenarios, build stronger prompts, make better decisions, and connect directly to <strong>EX-MULTIS</strong> as the primary institutional AI tool.</p>
+          <div class="home-kicker">Practical AI learning</div>
+          <h1>Learn AI.<br><span class="gradient">Use it well.</span></h1>
+          <p class="lead">Build confidence through short lessons, guided practice, and tools you can use right away.</p>
           <div class="hero-actions">
-            <a class="btn primary" href="start-here/index.html">Begin the Start Here pathway</a>
-            <a class="btn signal" href="https://exmultis.com/" target="_blank" rel="noopener">Launch EX-MULTIS</a>
+            <a class="btn primary" href="start-here/index.html">Start learning</a>
+            <a class="btn ghost" href="#practice">Explore the labs</a>
           </div>
         </div>
-        <div class="render-card lab-portal-card">
-          <div>
-            <img class="lab-portal-card__logo" src="assets/img/ctc-official-logo.png" alt="Central Texas College">
-            <span class="lab-portal-card__label">Interactive learning environment</span>
-            <strong>A living gateway into practical, responsible AI learning.</strong>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="section" id="lab-menu" tabindex="-1">
-      <div class="container">
-        <div class="exmultis panel">
-          <div class="ex-logo">⬢</div>
-          <div>
-            <div class="kicker">Primary AI Tool</div>
-            <h2 style="margin:4px 0 10px">EX-MULTIS</h2>
-            <p class="section-intro" style="margin:0;color:#d9edff">The lab should not feel disconnected from the real tool your community will use. EX-MULTIS is featured here as the action tool for drafting, guided thinking, exploration, productivity, and applied practice.</p>
-            <ul class="feature-list">
-              <li><span>✓</span><div>Place EX-MULTIS in the primary call-to-action position on the homepage.</div></li>
-              <li><span>✓</span><div>Use it as the “Apply It” step after foundational learning and practice labs.</div></li>
-              <li><span>✓</span><div>Link role-based pathways to sample EX-MULTIS use cases for faculty, staff, students, and builders.</div></li>
-            </ul>
-          </div>
-          <div>
-            <a class="btn primary" href="https://exmultis.com/" target="_blank" rel="noopener">Launch EX-MULTIS</a>
-          </div>
+        <div class="home-journey" aria-label="Learning journey">
+          <div class="home-journey__glow" aria-hidden="true"></div>
+          <div class="home-kicker">Your learning path</div>
+          <ol class="home-journey__steps">
+            <li><span>01</span><div><strong>Learn</strong><small>Understand the essentials.</small></div></li>
+            <li><span>02</span><div><strong>Practice</strong><small>Work through guided labs.</small></div></li>
+            <li><span>03</span><div><strong>Apply</strong><small>Move into real tasks.</small></div></li>
+          </ol>
+          <div class="home-journey__note">Move at your own pace. No login required.</div>
         </div>
       </div>
     </section>
 
-    <section class="section">
+    <section class="home-section">
       <div class="container">
-        <h2>Choose your pathway</h2>
-        <p class="section-intro">Each pathway is framed around what that audience most needs from AI at CTC. These pages can expand into full module sequences later without changing the site structure.</p>
-        <div class="grid cards-4">
-          <a class="card" href="pathways/faculty/index.html">
-            <div class="icon-badge icon-faculty">🎓</div>
-            <div class="eyebrow">Role pathway</div>
+        <div class="home-section-heading">
+          <div>
+            <div class="home-kicker">Choose your path</div>
+            <h2>Start where it matters to you.</h2>
+          </div>
+          <p>Four focused routes. One clear next step.</p>
+        </div>
+        <div class="home-pathways">
+          <a class="home-path-card" href="pathways/faculty/index.html">
+            <span class="home-path-icon icon-faculty">🎓</span>
             <h3>Faculty</h3>
-            <p>Teaching, feedback, AI literacy, assignment design, and classroom-ready use cases.</p>
-            <div class="meta">Explore faculty pathway →</div>
+            <p>Teaching, feedback, and classroom practice.</p>
+            <span class="home-card-link">Explore →</span>
           </a>
-          <a class="card" href="pathways/staff/index.html">
-            <div class="icon-badge icon-staff">💼</div>
-            <div class="eyebrow">Role pathway</div>
+          <a class="home-path-card" href="pathways/staff/index.html">
+            <span class="home-path-icon icon-staff">💼</span>
             <h3>Staff</h3>
-            <p>Productivity, email and document support, workflows, service communication, and time savings.</p>
-            <div class="meta">Explore staff pathway →</div>
+            <p>Everyday productivity and clearer workflows.</p>
+            <span class="home-card-link">Explore →</span>
           </a>
-          <a class="card" href="pathways/students/index.html">
-            <div class="icon-badge icon-students">👥</div>
-            <div class="eyebrow">Role pathway</div>
+          <a class="home-path-card" href="pathways/students/index.html">
+            <span class="home-path-icon icon-students">👥</span>
             <h3>Students</h3>
-            <p>Responsible use, AI literacy, studying smarter, career readiness, and building confidence with AI tools.</p>
-            <div class="meta">Explore student pathway →</div>
+            <p>Responsible use, study, and career skills.</p>
+            <span class="home-card-link">Explore →</span>
           </a>
-          <a class="card" href="pathways/builders/index.html">
-            <div class="icon-badge icon-builders">&lt;/&gt;</div>
-            <div class="eyebrow">Role pathway</div>
+          <a class="home-path-card" href="pathways/builders/index.html">
+            <span class="home-path-icon icon-builders">&lt;/&gt;</span>
             <h3>Builders</h3>
-            <p>Prompt engineering, app ideas, workflow prototypes, automation thinking, and technical exploration.</p>
-            <div class="meta">Explore builder pathway →</div>
+            <p>Prompts, prototypes, and automation ideas.</p>
+            <span class="home-card-link">Explore →</span>
           </a>
         </div>
       </div>
     </section>
 
-    <section class="section">
-      <div class="container grid cards-2">
-        <a class="card" href="start-here/index.html">
-          <div class="eyebrow">On-ramp</div>
-          <h3>Start Here</h3>
-          <p>A first-stop pathway for new users: what AI is, how LLMs work, what EX-MULTIS can help with, and where human verification matters.</p>
-          <div class="meta">Begin your journey →</div>
+    <section class="home-section home-section--quiet">
+      <div class="container home-resume-grid">
+        <a class="home-feature-card" href="start-here/index.html">
+          <span class="home-feature-card__icon" aria-hidden="true">→</span>
+          <div>
+            <div class="home-kicker">New here?</div>
+            <h3>Start with the essentials</h3>
+            <p>A quick introduction to AI, language models, and responsible use.</p>
+            <span class="home-card-link">Begin Start Here →</span>
+          </div>
         </a>
-        <div class="card" data-continue-card>
-          <div class="eyebrow">Saved in this browser</div>
-          <h3>Continue Learning</h3>
-          <p>Your next-step card will appear here automatically.</p>
-          <div class="meta">Local progress, no login required</div>
+        <div class="home-feature-card" data-continue-card>
+          <span class="home-feature-card__icon" aria-hidden="true">↗</span>
+          <div>
+            <div class="home-kicker">Continue learning</div>
+            <h3>Pick up where you left off</h3>
+            <p>Your most recent page is saved in this browser.</p>
+            <span class="home-card-link">Resume →</span>
+          </div>
         </div>
       </div>
     </section>
 
-    <section class="section">
+    <section class="home-section" id="practice">
       <div class="container">
-        <h2>Practice, then apply</h2>
-        <p class="section-intro">The site includes hands-on experiences rather than a passive resource list. Two working examples are included in this starter build.</p>
-        <div class="grid cards-2">
-          <a class="card" href="labs/decision-lab/index.html">
-            <div class="eyebrow">Interactive lab</div>
-            <h3>AI Decision Lab</h3>
-            <p>Enter the task, the data type, and the risk level. The lab recommends how to use EX-MULTIS, what to verify, and what to watch out for.</p>
-            <div class="meta">Open the lab →</div>
+        <div class="home-section-heading">
+          <div>
+            <div class="home-kicker">Practice</div>
+            <h2>Try a guided lab.</h2>
+          </div>
+          <p>Make a decision or strengthen a prompt.</p>
+        </div>
+        <div class="home-labs">
+          <a class="home-lab-card" href="labs/decision-lab/index.html">
+            <span class="home-lab-card__number">01</span>
+            <div>
+              <h3>AI Decision Lab</h3>
+              <p>Decide when and how to use AI responsibly.</p>
+              <span class="home-card-link">Open the lab →</span>
+            </div>
           </a>
-          <a class="card" href="labs/prompt-gym/index.html">
-            <div class="eyebrow">Interactive lab</div>
-            <h3>Prompt Gym</h3>
-            <p>Build better prompts by adding context, audience, source material, constraints, and verification checks.</p>
-            <div class="meta">Train prompts →</div>
+          <a class="home-lab-card" href="labs/prompt-gym/index.html">
+            <span class="home-lab-card__number">02</span>
+            <div>
+              <h3>Prompt Gym</h3>
+              <p>Turn a rough request into a useful prompt.</p>
+              <span class="home-card-link">Train a prompt →</span>
+            </div>
           </a>
         </div>
       </div>
     </section>
 
-    <section class="section">
-      <div class="container">
-        <h2>Learning passport</h2>
-        <p class="section-intro" data-passport-summary>This browser-local passport tracks completed milestones and provides a foundation for a future printable learning record or certificate layer.</p>
-        <div class="progress-wrap" data-passport></div>
-      </div>
-    </section>
-
-    <section class="section">
-      <div class="container">
-        <h2>Why this architecture works</h2>
-        <div class="stats">
-          <div class="card stat"><div class="num">1</div><div class="lbl">Primary homepage action points directly to EX-MULTIS.</div></div>
-          <div class="card stat"><div class="num">4</div><div class="lbl">Role-based pathways make the site easier to enter and navigate.</div></div>
-          <div class="card stat"><div class="num">2</div><div class="lbl">Working interactive labs demonstrate the learning-by-doing model.</div></div>
-          <div class="card stat"><div class="num">0</div><div class="lbl">No login required for version one. Progress lives in the browser.</div></div>
+    <section class="home-section home-section--last">
+      <div class="container home-bottom-grid">
+        <div class="home-progress-card">
+          <div class="home-kicker">Your progress</div>
+          <h2>Learning passport</h2>
+          <p data-passport-summary>Track your completed milestones in this browser.</p>
+          <div class="home-passport-progress" data-passport data-passport-compact></div>
+          <a class="home-card-link" href="passport/index.html">View your passport →</a>
+        </div>
+        <div class="home-tool-card">
+          <div class="home-kicker">Ready to apply?</div>
+          <h2>Move from practice to action.</h2>
+          <p>Use EX-MULTIS when you are ready to work on a real task.</p>
+          <a class="btn signal" href="https://exmultis.com/" target="_blank" rel="noopener">Open EX-MULTIS ↗</a>
         </div>
       </div>
     </section>
@@ -206,7 +199,7 @@
 
   <footer class="footer">
     <div class="container footer-grid">
-      <div>CTC AI Learning Lab · separate project build · v1 starter site</div>
+      <div><strong>AI Learning Lab</strong><small>Learn · Practice · Apply</small></div>
       <div class="mini-nav">
         <a href="start-here/index.html">Start Here</a>
         <a href="resources/index.html">Resources</a>
