@@ -2,6 +2,10 @@
 
 A separate starter project for Central Texas College built as a static site prototype.
 
+## Live site
+
+[Open the CTC AI Learning Lab](https://tedg145.github.io/ctc-ai-learning-lab/)
+
 ## What is included
 
 - A cinematic, continuously animated entrance leading into the guided learning journey
