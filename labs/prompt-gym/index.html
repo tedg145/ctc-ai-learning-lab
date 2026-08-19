@@ -1,24 +1,18 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Prompt Gym · CTC AI Learning Lab</title><link rel="stylesheet" href="../../assets/css/styles.css"></head><body>
-<header class="topbar"><div class="container nav"><a class="brand" href="../../index.html"><img class="brand-logo" src="../../assets/img/ctc-official-logo.png" alt="Central Texas College"><div>CTC AI Learning Lab<small>Prompt Gym</small></div></a><nav class="nav-links"><a href="../../index.html">Home</a><a href="../../start-here/index.html">Start Here</a><a href="../../foundations/index.html">Foundations</a><a href="../decision-lab/index.html">Decision Lab</a><a class="active" href="index.html">Prompt Gym</a></nav><div class="actions"><a class="btn ghost" href="https://exmultis.com/" target="_blank" rel="noopener">Open EX-MULTIS ↗</a></div></div></header>
-<main class="section"><div class="container">
-  <h1>Prompt Gym</h1>
-  <p class="section-intro">This lab helps users move beyond vague prompting. The structure mirrors the mental model behind the site: better context produces more useful, more constrained output.</p>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Prompt Gym · AI Learning Lab</title><link rel="stylesheet" href="../../assets/css/styles.css"></head><body class="site-page">
+<header class="topbar"><div class="container nav home-nav"><a class="brand home-brand" href="../../index.html"><span class="home-brand__mark"><img class="brand-logo" src="../../assets/img/ctc-official-logo.png" alt="Central Texas College"></span><div>AI Learning Lab<small>Learn · Practice · Apply</small></div></a><nav class="nav-links"><a href="../../start-here/index.html">Start Here</a><a href="../../foundations/index.html">Foundations</a><a href="../decision-lab/index.html">Decision Lab</a><a class="active" href="index.html">Prompt Gym</a><a href="../../resources/index.html">Resources</a></nav><div class="actions"><a class="btn primary home-tool-button" href="https://exmultis.com/" target="_blank" rel="noopener">EX-MULTIS ↗</a></div></div></header>
+<main class="site-main"><div class="container">
+  <div class="site-lab-intro"><div class="home-kicker">Guided practice</div><h1>Prompt Gym</h1><p>Turn a rough request into a focused prompt. Add the details that help AI understand the task, the audience, the boundaries, and what must be checked.</p></div>
   <div class="prompt-grid">
-    <div class="panel prompt-box">
-      <div class="search-box"><span>1</span><input id="pg-task" type="text" placeholder="Task: e.g., Draft a welcome email for new students"></div>
-      <div class="search-box"><span>2</span><input id="pg-audience" type="text" placeholder="Audience: e.g., first-semester students"></div>
-      <div class="search-box"><span>3</span><textarea id="pg-source" placeholder="Source material or context: e.g., orientation details, key dates, required actions"></textarea></div>
-      <div class="search-box"><span>4</span><textarea id="pg-constraints" placeholder="Constraints: e.g., friendly tone, 150 words max, mention registration and support services"></textarea></div>
-      <div class="search-box"><span>5</span><textarea id="pg-verification" placeholder="Verification: e.g., do not invent dates; flag anything uncertain"></textarea></div>
-      <button class="btn primary" id="build-prompt">Build prompt</button>
-    </div>
-    <div class="panel prompt-box">
-      <h3>Prompt output</h3>
-      <p class="section-intro" style="margin-top:0">Copy the finished prompt into EX-MULTIS or revise it further.</p>
-      <div class="result" id="prompt-output">Your structured prompt will appear here.</div>
-      <div class="hero-actions" style="margin-top:16px"><a class="btn signal" href="https://exmultis.com/" target="_blank" rel="noopener">Take it to EX-MULTIS</a></div>
-    </div>
+    <div class="panel prompt-box"><div class="prompt-fields">
+      <label class="prompt-field"><span>01</span><input id="pg-task" type="text" placeholder="Task — draft a welcome email for new students"></label>
+      <label class="prompt-field"><span>02</span><input id="pg-audience" type="text" placeholder="Audience — first-semester students"></label>
+      <label class="prompt-field"><span>03</span><textarea id="pg-source" placeholder="Context — orientation details, key dates, and required actions"></textarea></label>
+      <label class="prompt-field prompt-field--short"><span>04</span><textarea id="pg-constraints" placeholder="Constraints — friendly tone, 150 words, include support services"></textarea></label>
+      <label class="prompt-field prompt-field--short"><span>05</span><textarea id="pg-verification" placeholder="Verification — do not invent dates; flag anything uncertain"></textarea></label>
+      <button class="btn primary" id="build-prompt">Build my prompt</button>
+    </div></div>
+    <div class="panel prompt-box"><div class="home-kicker">Your finished prompt</div><h3>Ready to review and use.</h3><p class="section-intro" style="margin-top:0">Build the prompt, check it, then take it into EX-MULTIS.</p><div class="result" id="prompt-output">Your structured prompt will appear here.</div><div class="site-actions"><a class="btn signal" href="https://exmultis.com/" target="_blank" rel="noopener">Take it to EX-MULTIS ↗</a></div></div>
   </div>
 </div></main>
-<footer class="footer"><div class="container footer-grid"><div>CTC AI Learning Lab · Prompt Gym</div><div class="mini-nav"><a href="../../index.html">Home</a><a href="../decision-lab/index.html">Decision Lab</a></div></div></footer><script src="../../assets/js/app.js"></script><script src="../../assets/js/prompt-gym.js"></script></body></html>
+<footer class="footer site-footer"><div class="container footer-grid"><div><strong>AI Learning Lab</strong><small>Learn · Practice · Apply</small></div><div class="mini-nav"><a href="../../index.html">Home</a><a href="../decision-lab/index.html">Decision Lab</a><a href="../../resources/index.html">Resources</a><a href="https://exmultis.com/" target="_blank" rel="noopener">EX-MULTIS ↗</a></div></div></footer><script src="../../assets/js/app.js"></script><script src="../../assets/js/prompt-gym.js"></script></body></html>

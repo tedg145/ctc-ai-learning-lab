@@ -1,27 +1,16 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>AI Decision Lab · CTC AI Learning Lab</title><link rel="stylesheet" href="../../assets/css/styles.css"></head><body>
-<header class="topbar"><div class="container nav"><a class="brand" href="../../index.html"><img class="brand-logo" src="../../assets/img/ctc-official-logo.png" alt="Central Texas College"><div>CTC AI Learning Lab<small>AI Decision Lab</small></div></a><nav class="nav-links"><a href="../../index.html">Home</a><a href="../../start-here/index.html">Start Here</a><a href="../../foundations/index.html">Foundations</a><a class="active" href="index.html">Decision Lab</a><a href="../prompt-gym/index.html">Prompt Gym</a></nav><div class="actions"><a class="btn ghost" href="https://exmultis.com/" target="_blank" rel="noopener">Open EX-MULTIS ↗</a></div></div></header>
-<main class="section"><div class="container">
-  <h1>AI Decision Lab</h1>
-  <p class="section-intro">Use this lab to think through a realistic AI use case. It helps users decide how EX-MULTIS fits, what risks to watch, and what verification steps matter.</p>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>AI Decision Lab · AI Learning Lab</title><link rel="stylesheet" href="../../assets/css/styles.css"></head><body class="site-page">
+<header class="topbar"><div class="container nav home-nav"><a class="brand home-brand" href="../../index.html"><span class="home-brand__mark"><img class="brand-logo" src="../../assets/img/ctc-official-logo.png" alt="Central Texas College"></span><div>AI Learning Lab<small>Learn · Practice · Apply</small></div></a><nav class="nav-links"><a href="../../start-here/index.html">Start Here</a><a href="../../foundations/index.html">Foundations</a><a class="active" href="index.html">Decision Lab</a><a href="../prompt-gym/index.html">Prompt Gym</a><a href="../../resources/index.html">Resources</a></nav><div class="actions"><a class="btn primary home-tool-button" href="https://exmultis.com/" target="_blank" rel="noopener">EX-MULTIS ↗</a></div></div></header>
+<main class="site-main"><div class="container">
+  <div class="site-lab-intro"><div class="home-kicker">Guided practice</div><h1>AI Decision Lab</h1><p>Think through the task, the information involved, and the impact of a mistake. The lab turns those choices into clear guidance for responsible AI use.</p></div>
   <div class="decision-grid">
-    <div class="panel stepper" style="padding:20px">
-      <div class="step-item"><strong>1. Choose the task</strong><select id="task"><option value="drafting">Drafting / writing support</option><option value="summarizing">Summarizing a document</option><option value="research">Research framing or question generation</option><option value="teaching">Teaching / learning material</option><option value="workflow">Workflow / process improvement</option><option value="analysis">Analysis / decision support</option></select></div>
-      <div class="step-item"><strong>2. Choose the data type</strong><select id="data-type"><option value="public">Public or low-sensitivity information</option><option value="internal">Internal institutional information</option><option value="sensitive">Sensitive or regulated information</option></select></div>
-      <div class="step-item"><strong>3. Choose the impact level</strong><select id="risk-level"><option value="low">Low stakes</option><option value="medium">Medium stakes</option><option value="high">High stakes</option></select></div>
+    <div class="panel stepper">
+      <div class="step-item"><strong>1 · What are you working on?</strong><select id="task"><option value="drafting">Drafting or writing support</option><option value="summarizing">Summarizing a document</option><option value="research">Research framing or question generation</option><option value="teaching">Teaching or learning material</option><option value="workflow">Workflow or process improvement</option><option value="analysis">Analysis or decision support</option></select></div>
+      <div class="step-item"><strong>2 · What information is involved?</strong><select id="data-type"><option value="public">Public or low-sensitivity information</option><option value="internal">Internal institutional information</option><option value="sensitive">Sensitive or regulated information</option></select></div>
+      <div class="step-item"><strong>3 · What is the impact of a mistake?</strong><select id="risk-level"><option value="low">Low impact</option><option value="medium">Moderate impact</option><option value="high">High impact</option></select></div>
       <button class="btn primary" id="run-decision">Generate guidance</button>
     </div>
-    <div class="panel output-box" id="decision-output">
-      <h3>Your decision guidance will appear here</h3>
-      <p class="section-intro" style="margin-top:0">This output is designed to train judgment, not replace it. The point is to make people think through the task, the data, the risk, the tool choice, and the human review step.</p>
-      <ul>
-        <li>What is the task?</li>
-        <li>What kind of information is involved?</li>
-        <li>How risky is a mistake in this situation?</li>
-        <li>How should EX-MULTIS be used appropriately?</li>
-        <li>What must a human verify before acting?</li>
-      </ul>
-    </div>
+    <div class="panel output-box" id="decision-output"><div class="home-kicker">Your guidance</div><h3>Make three choices to begin.</h3><p class="section-intro" style="margin-top:0">You will receive a recommended approach, a caution level, and a short human-review checklist.</p><ul><li>Is AI appropriate for this task?</li><li>What information can be used safely?</li><li>What needs human verification before action?</li></ul></div>
   </div>
 </div></main>
-<footer class="footer"><div class="container footer-grid"><div>CTC AI Learning Lab · AI Decision Lab</div><div class="mini-nav"><a href="../../index.html">Home</a><a href="../prompt-gym/index.html">Prompt Gym</a></div></div></footer><script src="../../assets/js/app.js"></script><script src="../../assets/js/decision-lab.js"></script></body></html>
+<footer class="footer site-footer"><div class="container footer-grid"><div><strong>AI Learning Lab</strong><small>Learn · Practice · Apply</small></div><div class="mini-nav"><a href="../../index.html">Home</a><a href="../prompt-gym/index.html">Prompt Gym</a><a href="../../resources/index.html">Resources</a><a href="https://exmultis.com/" target="_blank" rel="noopener">EX-MULTIS ↗</a></div></div></footer><script src="../../assets/js/app.js"></script><script src="../../assets/js/decision-lab.js"></script></body></html>
