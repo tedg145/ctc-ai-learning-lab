@@ -139,6 +139,7 @@ const CTC = (() => {
         <div class="scout-panel__header">
           <div class="scout-panel__face" data-scout-mini-face>^‿^</div>
           <div class="scout-panel__title">Scout · AI helper<small><span class="scout-panel__dot"></span>Ready to help</small></div>
+          <button class="scout-panel__replay" type="button" aria-label="Replay Scout transformation" title="Replay equation transformation">✦</button>
           <button class="scout-panel__reset" type="button" aria-label="Reset Scout position" title="Return Scout to the corner">↺</button>
           <button class="scout-panel__close" type="button" aria-label="Close Scout">×</button>
         </div>
@@ -166,23 +167,34 @@ const CTC = (() => {
       <button class="scout-launcher" type="button" aria-label="Open Scout learning guide" aria-describedby="scout-move-instructions" aria-expanded="false" title="Drag Scout to move him · click to ask for help">
         <span class="scout-launcher__label">Ask Scout <small>drag me</small></span>
         <span class="scout-birth" aria-hidden="true"><i>H(X) = −</i><i>Σ</i><i>p(x)</i><i>log₂</i><i>p(x)</i></span>
-        <span class="scout-bot scout-bot--equation is-happy" aria-hidden="true">
-          <span class="scout-bot__shadow"></span>
-          <span class="scout-bot__ear scout-bot__ear--left"></span><span class="scout-bot__ear scout-bot__ear--right"></span>
-          <span class="scout-bot__head"><span class="scout-bot__face"><i class="scout-bot__eye"></i><i class="scout-bot__eye"></i><i class="scout-bot__mouth"></i></span></span>
-          <span class="scout-bot__body"><i class="scout-equation__core"></i></span><span class="scout-bot__arm scout-bot__arm--left"></span><span class="scout-bot__arm scout-bot__arm--right"></span>
-          <span class="scout-equation__leg scout-equation__leg--left"></span><span class="scout-equation__leg scout-equation__leg--right"></span>
-          <span class="scout-equation__nav scout-equation__nav--learn">›</span><span class="scout-equation__nav scout-equation__nav--multis">◆</span>
-          <span class="scout-equation__laptop"><i class="scout-equation__screen"></i><i class="scout-equation__keys"></i></span>
+        <span class="scout-bot scout-bot--equation scout-bot--polished is-happy" aria-hidden="true">
+          <span class="scout-polished__spark-field"></span>
+          <span class="scout-polished__pose scout-polished__pose--idle">
+            <img src="${routeUrl('assets/images/scout-polished-idle.png')}" alt="">
+            <span class="scout-polished__face scout-polished__face--idle"><i></i><i></i><b></b></span>
+          </span>
+          <span class="scout-polished__pose scout-polished__pose--laptop">
+            <img src="${routeUrl('assets/images/scout-polished-laptop.png')}" alt="">
+            <span class="scout-polished__face scout-polished__face--laptop"><i></i><i></i><b></b></span>
+          </span>
         </span>
       </button>`;
     document.body.appendChild(guide);
 
-    if(playEquationIntro) window.setTimeout(()=>guide.classList.remove('is-birthing'),3900);
+    let birthTimer = null;
+    function replayBirth(){
+      window.clearTimeout(birthTimer);
+      guide.classList.remove('is-working','is-birthing');
+      void guide.offsetWidth;
+      guide.classList.add('is-birthing');
+      birthTimer = window.setTimeout(()=>guide.classList.remove('is-birthing'),5200);
+    }
+    if(playEquationIntro) replayBirth();
 
     const panel = guide.querySelector('.scout-panel');
     const launcher = guide.querySelector('.scout-launcher');
     const closeButton = guide.querySelector('.scout-panel__close');
+    const replayButton = guide.querySelector('.scout-panel__replay');
     const resetButton = guide.querySelector('.scout-panel__reset');
     const input = guide.querySelector('.scout-compose input');
     const sendButton = guide.querySelector('[data-scout-send]');
@@ -379,6 +391,7 @@ const CTC = (() => {
       }
       const open = !guide.classList.contains('is-open');
       if(open){
+        window.clearTimeout(birthTimer);
         guide.classList.remove('is-birthing');
         guide.classList.add('is-working');
         setMood('is-curious');
@@ -407,6 +420,10 @@ const CTC = (() => {
     closeButton.addEventListener('click',()=>{
       setOpen(false);
       window.setTimeout(()=>guide.classList.remove('is-working'),240);
+    });
+    replayButton.addEventListener('click',()=>{
+      setOpen(false);
+      replayBirth();
     });
     resetButton.addEventListener('click',()=>{
       try{ localStorage.removeItem(positionKey); }catch(error){}

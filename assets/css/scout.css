@@ -179,6 +179,44 @@
 .scout-guide--equation.is-birthing .scout-birth i:nth-child(5){left:232px;color:var(--scout-amber);animation-delay:.2s}
 .scout-guide--equation.is-birthing .scout-bot--equation{animation:scoutHelperMaterialize 3.7s ease both}
 .scout-guide--equation.is-birthing .scout-bot--equation::before{content:"";position:absolute;inset:-9px;border:1px solid rgba(96,232,255,.5);border-radius:50%;box-shadow:0 0 14px rgba(96,232,255,.45),inset 0 0 14px rgba(255,178,63,.18);animation:scoutBirthRing 3.2s ease both}
+.scout-bot--polished{
+  width:138px;
+  height:164px;
+  isolation:isolate;
+  animation:scoutPolishedFloat 3.4s ease-in-out infinite;
+  filter:drop-shadow(0 17px 13px rgba(0,0,0,.4)) drop-shadow(0 0 15px rgba(73,174,255,.25));
+}
+.scout-polished__pose{position:absolute;inset:0;display:block;transition:opacity .3s ease,transform .5s cubic-bezier(.2,.75,.2,1);transform-origin:50% 78%}
+.scout-polished__pose img{display:block;height:auto;pointer-events:none;user-select:none;-webkit-user-drag:none}
+.scout-polished__pose--idle{opacity:1;transform:translateY(0) scale(1)}
+.scout-polished__pose--idle img{width:120px;margin-left:9px}
+.scout-polished__pose--laptop{opacity:0;transform:translateY(18px) scale(.55) rotateX(42deg)}
+.scout-polished__pose--laptop img{width:136px;margin-left:1px;margin-top:2px}
+.scout-polished__face{position:absolute;z-index:4;display:flex;align-items:center;justify-content:center;gap:13px;pointer-events:none}
+.scout-polished__face--idle{left:46px;top:37px;width:62px;height:42px}
+.scout-polished__face--laptop{left:30px;top:36px;width:68px;height:43px}
+.scout-polished__face i{width:7px;height:10px;border-radius:7px;background:#69efff;box-shadow:0 0 7px rgba(105,239,255,.95);animation:scoutPolishedBlink 4.8s infinite;transition:.2s}
+.scout-polished__face b{position:absolute;left:50%;bottom:6px;width:13px;height:6px;border-bottom:3px solid #69efff;border-radius:0 0 12px 12px;filter:drop-shadow(0 0 4px rgba(105,239,255,.9));transform:translateX(-50%);transition:.2s}
+.scout-bot--polished.is-happy .scout-polished__face i{height:7px;background:transparent;border-top:3px solid #69efff;border-radius:50% 50% 0 0;box-shadow:none}
+.scout-bot--polished.is-thinking .scout-polished__face i:first-child{height:3px;border-radius:4px}
+.scout-bot--polished.is-thinking .scout-polished__face b{width:10px;height:0;border-radius:0}
+.scout-bot--polished.is-curious .scout-polished__face i:first-child{height:5px}
+.scout-bot--polished.is-curious .scout-polished__face b{bottom:5px;width:7px;height:7px;border:2px solid #69efff;border-radius:50%}
+.scout-polished__spark-field{position:absolute;left:50%;top:50%;z-index:-1;display:block;width:5px;height:5px;border-radius:50%;opacity:0;background:#6beeff;box-shadow:-58px -36px 0 #6beeff,61px -45px 0 #ffb23f,-70px 10px 0 #ffb23f,72px 17px 0 #6beeff,-42px 63px 0 #b7f7ff,52px 66px 0 #ffb23f,-5px -72px 0 #6beeff,5px 78px 0 #6beeff}
+.scout-guide--equation.is-working .scout-bot--polished{animation:scoutPolishedWork 2.8s ease-in-out infinite}
+.scout-guide--equation.is-working .scout-polished__pose--idle{opacity:0;transform:translateY(12px) scale(.82)}
+.scout-guide--equation.is-working .scout-polished__pose--laptop{opacity:1;transform:translateY(0) scale(1) rotateX(0)}
+.scout-guide--equation.is-birthing .scout-launcher__label{animation:scoutPolishedLabel 5.1s ease both}
+.scout-guide--equation.is-birthing .scout-birth{right:84px;bottom:47px;width:330px;height:92px;animation:scoutPolishedEquation 5.1s ease both}
+.scout-guide--equation.is-birthing .scout-birth i{top:34px;font-size:23px;animation:scoutPolishedSymbol 5s cubic-bezier(.25,.08,.3,1) both}
+.scout-guide--equation.is-birthing .scout-birth i:nth-child(1){left:0}
+.scout-guide--equation.is-birthing .scout-birth i:nth-child(2){left:92px;top:22px;font-size:41px}
+.scout-guide--equation.is-birthing .scout-birth i:nth-child(3){left:139px}
+.scout-guide--equation.is-birthing .scout-birth i:nth-child(4){left:202px}
+.scout-guide--equation.is-birthing .scout-birth i:nth-child(5){left:269px}
+.scout-guide--equation.is-birthing .scout-bot--polished{animation:scoutPolishedMaterialize 5.1s ease both}
+.scout-guide--equation.is-birthing .scout-bot--polished::before{inset:-13px;border:2px solid rgba(96,232,255,.58);box-shadow:0 0 22px rgba(96,232,255,.6),inset 0 0 20px rgba(255,178,63,.24);animation:scoutPolishedRing 5s ease both}
+.scout-guide--equation.is-birthing .scout-polished__spark-field{animation:scoutPolishedSparks 5s ease both}
 .scout-panel{
   position:fixed;
   right:24px;
@@ -205,10 +243,11 @@
 .scout-panel__title{flex:1;color:var(--scout-text);font-size:.86rem;font-weight:800}
 .scout-panel__title small{display:flex;align-items:center;gap:5px;margin-top:4px;color:var(--scout-muted);font-size:.66rem;font-weight:550}
 .scout-panel__dot{width:6px;height:6px;border-radius:50%;background:#64e796;box-shadow:0 0 8px rgba(100,231,150,.7)}
-.scout-panel__reset,.scout-panel__close{display:grid;place-items:center;width:30px;height:30px;padding:0;border:0;border-radius:9px;color:var(--scout-muted);background:transparent;cursor:pointer}
+.scout-panel__replay,.scout-panel__reset,.scout-panel__close{display:grid;place-items:center;width:30px;height:30px;padding:0;border:0;border-radius:9px;color:var(--scout-muted);background:transparent;cursor:pointer}
+.scout-panel__replay{color:var(--scout-cyan);font-size:.88rem}
 .scout-panel__reset{font-size:1rem}
 .scout-panel__close{font-size:1.2rem}
-.scout-panel__reset:hover,.scout-panel__close:hover{color:var(--scout-text);background:rgba(255,255,255,.05)}
+.scout-panel__replay:hover,.scout-panel__reset:hover,.scout-panel__close:hover{color:var(--scout-text);background:rgba(255,255,255,.05)}
 .scout-messages{display:grid;gap:10px;overflow:auto;min-height:180px;padding:16px;scroll-behavior:smooth}
 .scout-message{max-width:88%;padding:10px 12px;border-radius:13px;color:#dceeff;background:var(--scout-panel-2);font-size:.78rem;line-height:1.48}
 .scout-message--user{justify-self:end;color:#071321;background:linear-gradient(135deg,#42d9ff,#5398ff)}
@@ -245,16 +284,27 @@
 @keyframes scoutBirthSymbol{0%,12%{opacity:0;filter:blur(5px);transform:translateY(8px) scale(.7)}22%,58%{opacity:1;filter:blur(0);transform:none}82%,100%{opacity:0;filter:blur(3px);transform:translate(205px,12px) scale(.18)}}
 @keyframes scoutHelperMaterialize{0%,45%{opacity:0;transform:scale(.18) rotate(-8deg);filter:blur(7px) brightness(1.8)}68%{opacity:1;transform:scale(1.08) rotate(2deg);filter:blur(0) brightness(1.35)}82%,100%{opacity:1;transform:scale(1) rotate(0);filter:none}}
 @keyframes scoutBirthRing{0%,45%{opacity:0;transform:scale(.25) rotate(-45deg)}64%{opacity:1;transform:scale(1.18) rotate(15deg)}100%{opacity:0;transform:scale(1.45) rotate(90deg)}}
+@keyframes scoutPolishedFloat{0%,100%{transform:translateY(0) rotate(-.8deg)}50%{transform:translateY(-8px) rotate(.8deg)}}
+@keyframes scoutPolishedWork{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+@keyframes scoutPolishedBlink{0%,45%,51%,100%{transform:scaleY(1)}47%,49%{transform:scaleY(.08)}}
+@keyframes scoutPolishedLabel{0%,88%{opacity:0;transform:translateY(4px)}100%{opacity:1;transform:none}}
+@keyframes scoutPolishedEquation{0%,8%{opacity:0;transform:translateX(-16px)}14%,54%{opacity:1;transform:none}84%,100%{opacity:0;transform:translateX(94px) scale(.62)}}
+@keyframes scoutPolishedSymbol{0%,8%{opacity:0;filter:blur(7px);transform:translateY(12px) scale(.65)}16%,54%{opacity:1;filter:blur(0);transform:none}76%,100%{opacity:0;filter:blur(4px);transform:translate(270px,18px) scale(.1)}}
+@keyframes scoutPolishedMaterialize{0%,52%{opacity:0;transform:scale(.06) rotate(-12deg);filter:blur(12px) brightness(2.2)}66%{opacity:.72;transform:scale(.62) rotate(5deg);filter:blur(3px) brightness(1.8)}79%{opacity:1;transform:scale(1.08) rotate(-1deg);filter:blur(0) brightness(1.2)}88%,100%{opacity:1;transform:scale(1);filter:none}}
+@keyframes scoutPolishedRing{0%,50%{opacity:0;transform:scale(.18) rotate(-80deg)}63%{opacity:1;transform:scale(.72) rotate(-20deg)}80%{opacity:.9;transform:scale(1.18) rotate(35deg)}100%{opacity:0;transform:scale(1.52) rotate(120deg)}}
+@keyframes scoutPolishedSparks{0%,48%{opacity:0;transform:scale(.15) rotate(-80deg)}62%{opacity:1;transform:scale(.7) rotate(-25deg)}82%{opacity:.9;transform:scale(1.18) rotate(45deg)}100%{opacity:0;transform:scale(1.55) rotate(120deg)}}
 @media (max-width:760px){
   .scout-launcher{right:12px;bottom:10px}
   .scout-panel{right:12px;bottom:120px;width:calc(100vw - 24px);max-height:calc(100vh - 142px)}
+  .scout-bot--polished{transform:scale(.86);transform-origin:bottom center}
+  .scout-guide--equation.is-birthing .scout-birth{right:52px;bottom:40px;transform-origin:right center}
 }
 @media (max-height:620px){
   .scout-panel{bottom:104px;max-height:calc(100vh - 118px)}
   .scout-bot{transform:scale(.86);transform-origin:bottom center}
 }
 @media (prefers-reduced-motion:reduce){
-  .scout-bot,.scout-bot__shadow,.scout-bot__eye,.scout-bot__arm,.scout-bot.is-thinking .scout-bot__head,.scout-equation__core,.scout-equation__leg,.scout-equation__nav::after,.scout-guide.is-noticing:not(.is-open) .scout-launcher{animation:none}
+  .scout-bot,.scout-bot__shadow,.scout-bot__eye,.scout-bot__arm,.scout-bot.is-thinking .scout-bot__head,.scout-equation__core,.scout-equation__leg,.scout-equation__nav::after,.scout-polished__face i,.scout-guide.is-noticing:not(.is-open) .scout-launcher{animation:none}
   .scout-guide--equation.is-birthing .scout-birth{display:none}
   .scout-guide--equation.is-birthing .scout-bot--equation{opacity:1;transform:none;filter:none}
   .scout-panel{transition:none}
