@@ -36,22 +36,57 @@
 .scout-launcher.is-dragging{cursor:grabbing}
 .scout-launcher.is-dragging .scout-bot{animation-play-state:paused}
 .scout-launcher__label{
-  display:flex;
-  align-items:center;
-  gap:6px;
+  position:absolute;
+  right:88px;
+  bottom:104px;
+  display:block;
+  width:max-content;
+  max-width:210px;
   padding:6px 10px;
   border:1px solid rgba(131,176,225,.32);
-  border-radius:999px;
+  border-radius:12px 12px 3px 12px;
   color:#dff3ff;
   background:rgba(7,21,38,.94);
   box-shadow:0 8px 20px rgba(0,0,0,.28);
   font-size:.68rem;
   font-weight:750;
   letter-spacing:.02em;
-  transition:border-color .2s ease,background .2s ease;
+  line-height:1.35;
+  opacity:0;
+  visibility:hidden;
+  transform:translate(8px,5px);
+  pointer-events:none;
+  transition:opacity .18s ease,transform .18s ease,visibility .18s ease,border-color .2s ease,background .2s ease;
 }
-.scout-launcher__label small{color:#8eabc7;font-size:.52rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase}
-.scout-launcher:hover .scout-launcher__label,.scout-launcher:focus-visible .scout-launcher__label{border-color:rgba(114,239,255,.68);background:rgba(13,39,66,.98)}
+.scout-launcher__label::after{content:"";position:absolute;right:-6px;bottom:0;border:6px solid transparent;border-bottom-color:rgba(7,21,38,.94);transform:rotate(45deg)}
+.scout-launcher:hover .scout-launcher__label,.scout-launcher:focus-visible .scout-launcher__label{border-color:rgba(114,239,255,.68);background:rgba(13,39,66,.98);opacity:1;visibility:visible;transform:none}
+.scout-launcher.is-dragging .scout-launcher__label{opacity:0;visibility:hidden}
+.scout-return{
+  position:fixed;
+  right:18px;
+  bottom:18px;
+  z-index:903;
+  display:flex;
+  align-items:center;
+  gap:7px;
+  padding:9px 12px;
+  border:1px solid rgba(114,239,255,.38);
+  border-radius:999px;
+  color:#dff7ff;
+  background:rgba(7,25,44,.96);
+  box-shadow:0 12px 28px rgba(0,0,0,.34),0 0 16px rgba(66,217,255,.12);
+  font-size:.7rem;
+  font-weight:800;
+  opacity:0;
+  visibility:hidden;
+  transform:translateY(8px);
+  cursor:pointer;
+  transition:opacity .2s ease,transform .2s ease,visibility .2s ease,border-color .2s ease;
+}
+.scout-return span{color:var(--scout-cyan)}
+.scout-return:hover,.scout-return:focus-visible{border-color:var(--scout-cyan);outline:none}
+.scout-guide.is-hidden .scout-launcher,.scout-guide.is-hidden .scout-panel{display:none}
+.scout-guide.is-hidden .scout-return{opacity:1;visibility:visible;transform:none}
 .scout-bot{
   position:relative;
   display:block;
@@ -183,6 +218,8 @@
   width:138px;
   height:164px;
   isolation:isolate;
+  scale:.72;
+  transform-origin:bottom right;
   animation:scoutPolishedFloat 3.4s ease-in-out infinite;
   filter:drop-shadow(0 17px 13px rgba(0,0,0,.4)) drop-shadow(0 0 15px rgba(73,174,255,.25));
 }
@@ -206,7 +243,7 @@
 .scout-guide--equation.is-working .scout-bot--polished{animation:scoutPolishedWork 2.8s ease-in-out infinite}
 .scout-guide--equation.is-working .scout-polished__pose--idle{opacity:0;transform:translateY(12px) scale(.82)}
 .scout-guide--equation.is-working .scout-polished__pose--laptop{opacity:1;transform:translateY(0) scale(1) rotateX(0)}
-.scout-guide--equation.is-birthing .scout-launcher__label{animation:scoutPolishedLabel 5.1s ease both}
+.scout-guide--equation.is-birthing .scout-launcher__label{animation:none}
 .scout-guide--equation.is-birthing .scout-birth{right:84px;bottom:47px;width:330px;height:92px;animation:scoutPolishedEquation 5.1s ease both}
 .scout-guide--equation.is-birthing .scout-birth i{top:34px;font-size:23px;animation:scoutPolishedSymbol 5s cubic-bezier(.25,.08,.3,1) both}
 .scout-guide--equation.is-birthing .scout-birth i:nth-child(1){left:0}
@@ -287,7 +324,6 @@
 @keyframes scoutPolishedFloat{0%,100%{transform:translateY(0) rotate(-.8deg)}50%{transform:translateY(-8px) rotate(.8deg)}}
 @keyframes scoutPolishedWork{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
 @keyframes scoutPolishedBlink{0%,45%,51%,100%{transform:scaleY(1)}47%,49%{transform:scaleY(.08)}}
-@keyframes scoutPolishedLabel{0%,88%{opacity:0;transform:translateY(4px)}100%{opacity:1;transform:none}}
 @keyframes scoutPolishedEquation{0%,8%{opacity:0;transform:translateX(-16px)}14%,54%{opacity:1;transform:none}84%,100%{opacity:0;transform:translateX(94px) scale(.62)}}
 @keyframes scoutPolishedSymbol{0%,8%{opacity:0;filter:blur(7px);transform:translateY(12px) scale(.65)}16%,54%{opacity:1;filter:blur(0);transform:none}76%,100%{opacity:0;filter:blur(4px);transform:translate(270px,18px) scale(.1)}}
 @keyframes scoutPolishedMaterialize{0%,52%{opacity:0;transform:scale(.06) rotate(-12deg);filter:blur(12px) brightness(2.2)}66%{opacity:.72;transform:scale(.62) rotate(5deg);filter:blur(3px) brightness(1.8)}79%{opacity:1;transform:scale(1.08) rotate(-1deg);filter:blur(0) brightness(1.2)}88%,100%{opacity:1;transform:scale(1);filter:none}}

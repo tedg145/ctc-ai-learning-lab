@@ -134,17 +134,17 @@ const CTC = (() => {
     guide.className = `scout-guide scout-guide--equation${playEquationIntro ? ' is-birthing' : ''}`;
     guide.dataset.scoutGuide = '';
     guide.innerHTML = `
-      <span class="scout-sr-only" id="scout-move-instructions">Drag Scout anywhere on the screen, or focus Scout and use the arrow keys to move him.</span>
-      <section class="scout-panel" aria-label="Scout learning guide" aria-hidden="true" aria-live="polite">
+      <span class="scout-sr-only" id="scout-move-instructions">Drag Vector anywhere on the screen, or focus Vector and use the arrow keys to move him.</span>
+      <section class="scout-panel" aria-label="Vector learning guide" aria-hidden="true" aria-live="polite">
         <div class="scout-panel__header">
           <div class="scout-panel__face" data-scout-mini-face>^‿^</div>
-          <div class="scout-panel__title">Scout · AI helper<small><span class="scout-panel__dot"></span>Ready to help</small></div>
-          <button class="scout-panel__replay" type="button" aria-label="Replay Scout transformation" title="Replay equation transformation">✦</button>
-          <button class="scout-panel__reset" type="button" aria-label="Reset Scout position" title="Return Scout to the corner">↺</button>
-          <button class="scout-panel__close" type="button" aria-label="Close Scout">×</button>
+          <div class="scout-panel__title">Vector · AI helper<small><span class="scout-panel__dot"></span>Ready to help</small></div>
+          <button class="scout-panel__replay" type="button" aria-label="Replay Vector transformation" title="Replay equation transformation">✦</button>
+          <button class="scout-panel__reset" type="button" aria-label="Reset Vector position" title="Return Vector to the corner">↺</button>
+          <button class="scout-panel__close" type="button" aria-label="Hide Vector assistant" title="Hide Vector">×</button>
         </div>
         <div class="scout-messages" data-scout-messages>
-          <div class="scout-message">Hi, I’m Scout! Tell me what you want to accomplish, and I’ll point you to the best place to begin.</div>
+          <div class="scout-message">Hi, I’m Vector! Tell me what you want to accomplish, and I’ll point you to the best place to begin.</div>
           <div class="scout-recommendation">
             <small>Suggested starting point</small>
             <strong>Start Here</strong>
@@ -159,13 +159,14 @@ const CTC = (() => {
           <button class="scout-choice" type="button" data-scout-query="I need a teaching resource">Find a resource</button>
         </div>
         <div class="scout-compose">
-          <input type="text" aria-label="Message Scout" placeholder="What would you like to work on?">
+          <input type="text" aria-label="Message Vector" placeholder="What would you like to work on?">
           <button type="button" data-scout-send>Send</button>
-          <p class="scout-privacy">Guided recommendations stay in this browser. Scout does not send your message to an outside service.</p>
+          <p class="scout-privacy">Guided recommendations stay in this browser. Vector does not send your message to an outside service.</p>
         </div>
       </section>
-      <button class="scout-launcher" type="button" aria-label="Open Scout learning guide" aria-describedby="scout-move-instructions" aria-expanded="false" title="Drag Scout to move him · click to ask for help">
-        <span class="scout-launcher__label">Ask Scout <small>drag me</small></span>
+      <button class="scout-return" type="button" aria-label="Open Vector assistant">Open Vector <span aria-hidden="true">✦</span></button>
+      <button class="scout-launcher" type="button" aria-label="Open Vector learning guide" aria-describedby="scout-move-instructions" aria-expanded="false" title="Drag Vector to move him · click to ask for help">
+        <span class="scout-launcher__label">Have a question? I can help.</span>
         <span class="scout-birth" aria-hidden="true"><i>H(X) = −</i><i>Σ</i><i>p(x)</i><i>log₂</i><i>p(x)</i></span>
         <span class="scout-bot scout-bot--equation scout-bot--polished is-happy" aria-hidden="true">
           <span class="scout-polished__spark-field"></span>
@@ -193,6 +194,7 @@ const CTC = (() => {
 
     const panel = guide.querySelector('.scout-panel');
     const launcher = guide.querySelector('.scout-launcher');
+    const returnButton = guide.querySelector('.scout-return');
     const closeButton = guide.querySelector('.scout-panel__close');
     const replayButton = guide.querySelector('.scout-panel__replay');
     const resetButton = guide.querySelector('.scout-panel__reset');
@@ -202,6 +204,7 @@ const CTC = (() => {
     const bot = guide.querySelector('.scout-bot');
     const miniFace = guide.querySelector('[data-scout-mini-face]');
     const positionKey = 'ctc-scout-position-v1';
+    const visibilityKey = 'ctc-vector-hidden-v1';
     let dragState = null;
     let suppressLauncherClick = false;
 
@@ -298,10 +301,28 @@ const CTC = (() => {
       guide.classList.toggle('is-open',open);
       panel.setAttribute('aria-hidden',String(!open));
       launcher.setAttribute('aria-expanded',String(open));
-      launcher.setAttribute('aria-label',open ? 'Close Scout learning guide' : 'Open Scout learning guide');
+      launcher.setAttribute('aria-label',open ? 'Close Vector learning guide' : 'Open Vector learning guide');
       if(open){
         window.requestAnimationFrame(positionPanel);
         window.setTimeout(()=>input.focus(),180);
+      }
+    }
+    function setHidden(hidden,persist=true){
+      window.clearTimeout(birthTimer);
+      setOpen(false);
+      guide.classList.remove('is-working','is-birthing','is-noticing');
+      guide.classList.toggle('is-hidden',hidden);
+      if(persist){
+        try{ localStorage.setItem(visibilityKey,String(hidden)); }catch(error){}
+      }
+      if(!hidden){
+        setMood('is-happy');
+        window.requestAnimationFrame(()=>{
+          restoreLauncherPosition();
+          launcher.focus();
+        });
+      }else{
+        returnButton.focus();
       }
     }
     function setMood(mood){
@@ -417,10 +438,8 @@ const CTC = (() => {
       saveLauncherPosition();
       guide.classList.remove('is-noticing');
     });
-    closeButton.addEventListener('click',()=>{
-      setOpen(false);
-      window.setTimeout(()=>guide.classList.remove('is-working'),240);
-    });
+    closeButton.addEventListener('click',()=>setHidden(true));
+    returnButton.addEventListener('click',()=>setHidden(false));
     replayButton.addEventListener('click',()=>{
       setOpen(false);
       replayBirth();
@@ -441,8 +460,13 @@ const CTC = (() => {
       if(event.key === 'Escape' && guide.classList.contains('is-open')) setOpen(false);
     });
     window.addEventListener('resize',()=>window.requestAnimationFrame(restoreLauncherPosition));
-    window.requestAnimationFrame(restoreLauncherPosition);
-    window.setTimeout(()=>guide.classList.add('is-noticing'),2200);
+    let hiddenInitially = false;
+    try{ hiddenInitially = localStorage.getItem(visibilityKey) === 'true'; }catch(error){}
+    if(hiddenInitially) setHidden(true,false);
+    else{
+      window.requestAnimationFrame(restoreLauncherPosition);
+      window.setTimeout(()=>guide.classList.add('is-noticing'),2200);
+    }
     window.setInterval(()=>{
       if(bot.classList.contains('is-thinking')) return;
       const nextMood = bot.classList.contains('is-happy') ? 'is-curious' : 'is-happy';
